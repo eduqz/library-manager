@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import GlobalStyle from '../../assets/styles/global';
-import DataEntry from '../../components/DataEntry';
+import Home from '../Home';
 import 'antd/dist/antd.css';
 
 const PageWrapper = styled.div`
@@ -14,7 +14,7 @@ const PageWrapper = styled.div`
 function App() {
   return (
     <PageWrapper>
-      <DataEntry />
+      <Home />
       <GlobalStyle />
     </PageWrapper>
   );
