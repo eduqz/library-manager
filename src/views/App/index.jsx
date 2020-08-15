@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GlobalStyle from '../../assets/styles/global';
+import GlobalStyles from '../../assets/globalStyles';
 import Home from '../Home';
 import 'antd/dist/antd.css';
 
@@ -15,7 +15,7 @@ function App() {
   return (
     <PageWrapper>
       <Home />
-      <GlobalStyle />
+      <GlobalStyles />
     </PageWrapper>
   );
 }
