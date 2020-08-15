@@ -5,14 +5,11 @@ import styled from 'styled-components';
 
 const ModalWrapper = styled.div``;
 
-const sheetLink =
-  'https://docs.google.com/spreadsheets/d/1bNDE9tONoNAP7vLzaCz_r_-IP0CUxpqtEEeWA9r9f-0/edit?usp=sharing';
-
-function RegisterModal({ data, clearData }) {
+function RegisterModal({ data }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (data) {
+    if (Object.keys(data).length !== 0) {
       setVisible(true);
     }
   }, [data]);
@@ -23,7 +20,6 @@ function RegisterModal({ data, clearData }) {
 
   const handleCancel = () => {
     setVisible(false);
-    clearData();
   };
 
   return (
@@ -36,7 +32,7 @@ function RegisterModal({ data, clearData }) {
         okText='Cadastrar'
         cancelText='Cancelar'
       >
-        Teste
+        {JSON.stringify(data)}
       </Modal>
     </ModalWrapper>
   );

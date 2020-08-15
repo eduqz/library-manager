@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import DataEntry from '../../components/DataEntry';
-import RegisterModal from '../../components/RegisterModal';
+import axios from 'axios';
+import { DataEntry, RegisterModal } from '../../components';
+import { createApiLink } from '../../assets/gobalRefs';
 
 const PageWrapper = styled.div`
   background-color: #eee;
@@ -10,11 +11,28 @@ const PageWrapper = styled.div`
   display: inline-flex;
 `;
 
+const headers = {
+  'Content-Type': 'application/json',
+};
+
 function Home() {
+  const [isbn, setIsbn] = useState('');
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    axios(createApiLink(isbn), { headers })
+      .then((response) => {
+        console.log(response);
+        setData(response);
+      })
+      .catch((error) => {
+        console.log('Error: ', error);
+      });
+  }, [isbn]);
   return (
     <PageWrapper>
-      <DataEntry />
-      <RegisterModal />
+      <DataEntry setIsbn={setIsbn} />
+      <RegisterModal data={data} />
     </PageWrapper>
   );
 }
