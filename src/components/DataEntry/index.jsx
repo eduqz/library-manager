@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import { Card, Input, Button, Tooltip } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -7,11 +8,17 @@ const ComponentWrapper = styled.div`
   margin: auto;
 `;
 
-const ContentWrapper = styled.div`
+const Form = styled.form`
   display: flex;
 `;
 
-function DataEntry() {
+function DataEntry({ setIsbn }) {
+  const [value, setValue] = useState('');
+
+  const handleSubmit = () => {
+    setIsbn(value);
+  };
+
   return (
     <ComponentWrapper>
       <Card
@@ -20,12 +27,22 @@ function DataEntry() {
         headStyle={{ fontWeight: 'bold' }}
         style={{ width: 350 }}
       >
-        <ContentWrapper>
-          <Input placeholder='ISBN' style={{ marginRight: 10 }} />
+        <Form onSubmit={handleSubmit}>
+          <Input
+            placeholder='ISBN'
+            value={value}
+            onChange={(data) => setValue(data)}
+            style={{ marginRight: 10 }}
+          />
           <Tooltip title='Buscar'>
-            <Button type='primary' shape='circle' icon={<SearchOutlined />} />
+            <Button
+              htmlType='submit'
+              type='primary'
+              shape='circle'
+              icon={<SearchOutlined />}
+            />
           </Tooltip>
-        </ContentWrapper>
+        </Form>
       </Card>
     </ComponentWrapper>
   );
