@@ -57,12 +57,12 @@ function RegisterModal({
     <RegisterWrapper>
       <FormGroup>
         <Label htmlFor='title'>Título</Label>
-        <Input name='title' defaultValue={title} />
+        <Input name='title' defaultValue={title} required />
       </FormGroup>
       <FormGroup>
         <Label htmlFor='author1'>Autores</Label>
         <MultiInputWrapper>
-          <Input name='author1' defaultValue={authors && authors[0]} />
+          <Input name='author1' defaultValue={authors && authors[0]} required />
           <InputWrapper visible={(authors && authors[1]) || numAuthors >= 2}>
             <Input name='author2' defaultValue={authors && authors[1]} />
           </InputWrapper>
@@ -108,9 +108,9 @@ function RegisterModal({
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          <Option value='infantil'>Infatil</Option>
-          <Option value='teen'>Infantil Juvenil</Option>
-          <Option value='tom'>Fábulas</Option>
+          <Option value='Infatil'>Infatil</Option>
+          <Option value='Infantil-juvenil'>Infantil-juvenil</Option>
+          <Option value='Fábula'>Fábula</Option>
         </Select>
       </FormGroup>
       <FormGroup>
