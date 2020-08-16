@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { DataEntry, RegisterModal, RegisterForm } from '../components';
+import { DataEntry, RegisterModal } from '../components';
 import { createApiLink } from '../assets/gobalRefs';
 
 const PageWrapper = styled.div`
@@ -35,11 +35,11 @@ function Home() {
         });
     }
   }, [isbn]);
+
   return (
     <PageWrapper>
       <DataEntry setIsbn={setIsbn} loading={loading} />
-      <RegisterModal data={data} />
-      <RegisterForm />
+      <RegisterModal data={data} setIsbn={setIsbn} />
     </PageWrapper>
   );
 }
