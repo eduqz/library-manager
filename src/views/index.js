@@ -1,4 +1,4 @@
-import App from './App';
-import Home from './Home';
+import App from './App.jsx';
+import Home from './Home.jsx';
 
-export { App, Home};
+export { App, Home };

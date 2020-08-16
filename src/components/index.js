@@ -1,4 +1,4 @@
-import DataEntry from './DataEntry';
-import RegisterModal from './RegisterModal';
+import DataEntry from './DataEntry.jsx';
+import RegisterModal from './RegisterModal.jsx';
 
 export { DataEntry, RegisterModal };

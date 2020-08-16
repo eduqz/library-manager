@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import GlobalStyles from '../../assets/globalStyles';
-import Home from '../Home';
+import GlobalStyles from '../assets/globalStyles';
+import Home from './Home';
 import 'antd/dist/antd.css';
 
 const PageWrapper = styled.div`
