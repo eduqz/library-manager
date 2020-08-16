@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { Card, Input, Button, Tooltip } from 'antd';
-import {
-  SearchOutlined,
-  LoadingOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { sheetLink } from '../assets/gobalRefs';
 
 const ComponentWrapper = styled.div`
   margin: auto;
@@ -31,7 +28,7 @@ function DataEntry({ setIsbn, loading }) {
     <ComponentWrapper>
       <Card
         title='Cadastro de livro'
-        extra={<a href='#'>Lista de livros</a>}
+        extra={<a href={sheetLink}>Lista de livros</a>}
         headStyle={{ fontWeight: 'bold' }}
         style={{ width: 350 }}
       >
@@ -47,7 +44,7 @@ function DataEntry({ setIsbn, loading }) {
               htmlType='submit'
               type='primary'
               icon={<SearchOutlined />}
-              disabled={loading}
+              loading={loading}
             />
           </Tooltip>
 
@@ -56,23 +53,11 @@ function DataEntry({ setIsbn, loading }) {
               type='default'
               shape='circle'
               icon={<PlusOutlined />}
-              disabled={loading}
               style={{ marginLeft: 10 }}
               onClick={() => setIsbn('0')}
             />
           </Tooltip>
         </Form>
-        {loading && (
-          <LoadingOutlined
-            style={{
-              fontSize: 24,
-              position: 'absolute',
-              top: 0,
-              padding: '85px 138px',
-            }}
-            spin
-          />
-        )}
       </Card>
     </ComponentWrapper>
   );

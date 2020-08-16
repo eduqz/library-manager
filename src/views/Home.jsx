@@ -21,18 +21,22 @@ function Home() {
 
   useEffect(() => {
     if (isbn) {
-      setLoading(true);
+      if (isbn === '0') {
+        setData({ add: true });
+      } else {
+        setLoading(true);
 
-      axios(createApiLink(isbn), { headers })
-        .then((response) => {
-          console.log(response);
-          setLoading(false);
-          setData(response);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log('Error: ', error);
-        });
+        axios(createApiLink(isbn), { headers })
+          .then((response) => {
+            console.log(response);
+            setLoading(false);
+            setData(response);
+          })
+          .catch((error) => {
+            setLoading(false);
+            console.log('Error: ', error);
+          });
+      }
     }
   }, [isbn]);
 
