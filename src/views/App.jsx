@@ -6,9 +6,8 @@ import 'antd/dist/antd.css';
 
 const PageWrapper = styled.div`
   background-color: #eee;
-  height: 100vh;
-  width: 100vw;
-  display: inline-flex;
+  height: 100%;
+  width: 100%;
 `;
 
 function App() {

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { DataEntry, RegisterModal } from '../components/DataEntry';
+import { DataEntry, RegisterModal, RegisterForm } from '../components';
 import { createApiLink } from '../assets/gobalRefs';
 
 const PageWrapper = styled.div`
-  background-color: #eee;
-  height: 100%;
   width: 100%;
+  height: 100%;
   display: inline-flex;
 `;
 
@@ -40,6 +39,7 @@ function Home() {
     <PageWrapper>
       <DataEntry setIsbn={setIsbn} loading={loading} />
       <RegisterModal data={data} />
+      <RegisterForm />
     </PageWrapper>
   );
 }
