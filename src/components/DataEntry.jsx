@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { Card, Input, Button, Tooltip } from 'antd';
-import { SearchOutlined, LoadingOutlined } from '@ant-design/icons';
+import {
+  SearchOutlined,
+  LoadingOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import styled from 'styled-components';
 
 const ComponentWrapper = styled.div`
@@ -9,7 +13,9 @@ const ComponentWrapper = styled.div`
 `;
 
 const Form = styled.form`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-gap: 5px;
 `;
 
 function DataEntry({ setIsbn, loading }) {
@@ -34,16 +40,25 @@ function DataEntry({ setIsbn, loading }) {
             placeholder='ISBN'
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            style={{ marginRight: 10 }}
             disabled={loading}
           />
           <Tooltip title='Buscar'>
             <Button
               htmlType='submit'
               type='primary'
-              shape='circle'
               icon={<SearchOutlined />}
               disabled={loading}
+            />
+          </Tooltip>
+
+          <Tooltip title='Cadastrar'>
+            <Button
+              type='default'
+              shape='circle'
+              icon={<PlusOutlined />}
+              disabled={loading}
+              style={{ marginLeft: 10 }}
+              onClick={() => setIsbn('0')}
             />
           </Tooltip>
         </Form>
