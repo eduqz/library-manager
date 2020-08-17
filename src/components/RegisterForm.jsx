@@ -95,13 +95,18 @@ function RegisterModal({
         </FormGroup>
         <FormGroup>
           <Label htmlFor='date'>Publicação</Label>
-          <InputNumber name='date' defaultValue={getYear(publishedDate)} />
+          <InputNumber
+            name='date'
+            min={1800}
+            defaultValue={getYear(publishedDate)}
+          />
         </FormGroup>
       </GridGroup>
       <FormGroup>
-        <Label htmlFor='date'>Categoria</Label>
+        <Label htmlFor='category'>Categoria</Label>
         <Select
           showSearch
+          name='category'
           placeholder='Selecione uma categoria'
           optionFilterProp='children'
           filterOption={(input, option) =>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { DataEntry, RegisterModal } from '../components';
-import { createApiLink } from '../assets/gobalRefs';
+import { createApiLink } from '../assets/globalRefs';
 
 const PageWrapper = styled.div`
   width: 100%;

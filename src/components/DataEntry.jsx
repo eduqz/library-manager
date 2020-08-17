@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, Input, Button, Tooltip } from 'antd';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import { sheetLink } from '../assets/gobalRefs';
+import { sheetLink } from '../assets/globalRefs';
 
 const ComponentWrapper = styled.div`
   margin: auto;
