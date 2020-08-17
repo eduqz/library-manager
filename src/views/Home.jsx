@@ -43,7 +43,7 @@ function Home() {
   return (
     <PageWrapper>
       <DataEntry setIsbn={setIsbn} loading={loading} />
-      <RegisterModal data={data} setIsbn={setIsbn} />
+      <RegisterModal data={data} isbn={isbn} setIsbn={setIsbn} />
     </PageWrapper>
   );
 }
