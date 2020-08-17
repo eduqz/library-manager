@@ -37,6 +37,7 @@ const InputWrapper = styled.div`
 `;
 
 function RegisterModal({
+  isbn,
   title,
   authors,
   publisher,
@@ -59,6 +60,16 @@ function RegisterModal({
 
   return (
     <RegisterWrapper>
+      <GridGroup>
+        <FormGroup>
+          <Label htmlFor='isbn'>ISBN</Label>
+          <Input name='isbn' defaultValue={isbn === '0' ? '' : isbn} required />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor='quantity'>Quantidade</Label>
+          <InputNumber name='quantity' min={1} defaultValue={1} />
+        </FormGroup>
+      </GridGroup>
       <FormGroup>
         <Label htmlFor='title'>Título</Label>
         <Input name='title' defaultValue={title} required />
@@ -100,45 +111,40 @@ function RegisterModal({
           />
         </FormGroup>
       </GridGroup>
-      <GridGroup>
-        <FormGroup>
-          <Label htmlFor='category'>Categoria</Label>
-          <Select
-            showSearch
-            name='category'
-            placeholder='Selecione'
-            optionFilterProp='children'
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {[
-              'Biblico',
-              'Conto/Crônica',
-              'Ensino/Educação',
-              'Ecologia/Natureza',
-              'Poesia',
-              'Inclusão',
-              'Fantasia',
-              'Avemtira/Suspense',
-              'Comportamento',
-              'Biografia',
-              'Como fazer',
-            ].map((item) => (
-              <Option key={item} value={item}>
-                {item}
-              </Option>
-            ))}
-          </Select>
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor='quantity'>Quantidade</Label>
-          <InputNumber name='quantity' min={1} defaultValue={1} />
-        </FormGroup>
-      </GridGroup>
+
+      <FormGroup>
+        <Label htmlFor='category'>Categoria</Label>
+        <Select
+          showSearch
+          name='category'
+          placeholder='Selecione'
+          optionFilterProp='children'
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          {[
+            'Biblico',
+            'Conto/Crônica',
+            'Ensino/Educação',
+            'Ecologia/Natureza',
+            'Poesia',
+            'Inclusão',
+            'Fantasia',
+            'Avemtira/Suspense',
+            'Comportamento',
+            'Biografia',
+            'Como fazer',
+          ].map((item) => (
+            <Option key={item} value={item}>
+              {item}
+            </Option>
+          ))}
+        </Select>
+      </FormGroup>
       <FormGroup>
         <Label htmlFor='description'>Descrição</Label>
-        <TextArea rows={2} name='description' defaultValue={description} />
+        <TextArea rows={3} name='description' defaultValue={description} />
       </FormGroup>
     </RegisterWrapper>
   );

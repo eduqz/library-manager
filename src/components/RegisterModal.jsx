@@ -15,7 +15,7 @@ const ModalContent = styled.div`
   overflow-y: auto;
   width: 100%;
   max-height: 55vh;
-  padding: 24px;Form
+  padding: 10px 24px;
 `;
 
 const CustomizeModal = createGlobalStyle`
@@ -63,6 +63,7 @@ function RegisterModal({ data, isbn, setIsbn }) {
 
       const volumeInfo = {
         Título: document.querySelector('input[name="title"]').value,
+        ISBN: document.querySelector('input[name="isbn"]').value,
         Autores: authors,
         Categoria: document.querySelector('.ant-select-selection-item').title,
         Editora: document.querySelector('input[name="publisher"]').value,
@@ -98,7 +99,7 @@ function RegisterModal({ data, isbn, setIsbn }) {
   return (
     <ModalWrapper>
       <Modal
-        title={(data && data.title) || 'Cadastro de livro'}
+        title={(data && data.title) || 'Formulário de cadastro'}
         visible={visible}
         onCancel={handleCancel}
         footer={[
@@ -117,7 +118,7 @@ function RegisterModal({ data, isbn, setIsbn }) {
         ]}
       >
         <ModalContent>
-          <RegisterForm key={isbn} {...extractData(data)} />
+          <RegisterForm key={isbn} isbn={isbn} {...extractData(data)} />
         </ModalContent>
       </Modal>
       <CustomizeModal />
