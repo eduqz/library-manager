@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, InputNumber, Select, Button } from 'antd';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ const FormGroup = styled.div`
 
 const GridGroup = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr auto;
   grid-gap: 15px;
 `;
 
@@ -53,6 +53,10 @@ function RegisterModal({
     return undefined;
   };
 
+  useEffect(() => {
+    setNumAuthors((authors && authors.length) || 1);
+  }, [authors]);
+
   return (
     <RegisterWrapper>
       <FormGroup>
@@ -63,21 +67,15 @@ function RegisterModal({
         <Label htmlFor='author1'>Autores</Label>
         <MultiInputWrapper>
           <Input name='author1' defaultValue={authors && authors[0]} required />
-          <InputWrapper visible={(authors && authors[1]) || numAuthors >= 2}>
-            <Input name='author2' defaultValue={authors && authors[1]} />
-          </InputWrapper>
-          <InputWrapper visible={(authors && authors[2]) || numAuthors >= 3}>
-            <Input name='author3' defaultValue={authors && authors[2]} />
-          </InputWrapper>
-          <InputWrapper visible={(authors && authors[3]) || numAuthors >= 4}>
-            <Input name='author4' defaultValue={authors && authors[3]} />
-          </InputWrapper>
-          <InputWrapper visible={(authors && authors[4]) || numAuthors >= 5}>
-            <Input name='author5' defaultValue={authors && authors[4]} />
-          </InputWrapper>
-          <InputWrapper visible={(authors && authors[5]) || numAuthors >= 6}>
-            <Input name='author6' defaultValue={authors && authors[5]} />
-          </InputWrapper>
+          {[2, 3, 4, 5, 6].map((item) => (
+            <InputWrapper key={item} visible={numAuthors >= item}>
+              <Input
+                name={`author${item}`}
+                defaultValue={authors && authors[item - 1]}
+                tabindex={numAuthors >= item ? undefined : -1}
+              />
+            </InputWrapper>
+          ))}
         </MultiInputWrapper>
         <Button
           type='dashed'
@@ -102,25 +100,45 @@ function RegisterModal({
           />
         </FormGroup>
       </GridGroup>
-      <FormGroup>
-        <Label htmlFor='category'>Categoria</Label>
-        <Select
-          showSearch
-          name='category'
-          placeholder='Selecione uma categoria'
-          optionFilterProp='children'
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          <Option value='Infatil'>Infatil</Option>
-          <Option value='Infantil-juvenil'>Infantil-juvenil</Option>
-          <Option value='Fábula'>Fábula</Option>
-        </Select>
-      </FormGroup>
+      <GridGroup>
+        <FormGroup>
+          <Label htmlFor='category'>Categoria</Label>
+          <Select
+            showSearch
+            name='category'
+            placeholder='Selecione'
+            optionFilterProp='children'
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {[
+              'Biblico',
+              'Conto/Crônica',
+              'Ensino/Educação',
+              'Ecologia/Natureza',
+              'Poesia',
+              'Inclusão',
+              'Fantasia',
+              'Avemtira/Suspense',
+              'Comportamento',
+              'Biografia',
+              'Como fazer',
+            ].map((item) => (
+              <Option key={item} value={item}>
+                {item}
+              </Option>
+            ))}
+          </Select>
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor='quantity'>Quantidade</Label>
+          <InputNumber name='quantity' min={1} defaultValue={1} />
+        </FormGroup>
+      </GridGroup>
       <FormGroup>
         <Label htmlFor='description'>Descrição</Label>
-        <TextArea rows={3} name='description' defaultValue={description} />
+        <TextArea rows={2} name='description' defaultValue={description} />
       </FormGroup>
     </RegisterWrapper>
   );
