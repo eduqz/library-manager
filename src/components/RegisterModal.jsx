@@ -7,8 +7,6 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { RegisterForm } from '.';
 import { sheetDocument } from '../assets/globalRefs';
 
-const credentials = require('../assets/services-credentials.secret.json');
-
 const ModalWrapper = styled.div``;
 
 const ModalContent = styled.div`
@@ -41,6 +39,11 @@ function RegisterModal({ data, isbn, setIsbn }) {
 
   const handleSubmit = async () => {
     setLoading(true);
+
+    const credentials = {
+      private_key: process.env.REACT_APP_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      client_email: process.env.REACT_APP_SERVICE_EMAIL,
+    };
 
     try {
       await sheetDocument.useServiceAccountAuth(credentials);
