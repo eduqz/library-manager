@@ -1,10 +1,12 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { Modal, message, Button } from 'antd';
 import styled, { createGlobalStyle } from 'styled-components';
-import axios from 'axios';
 import { RegisterForm } from '.';
-import { sheetApiLink } from '../assets/gobalRefs';
+import { sheetDocument } from '../assets/globalRefs';
+
+const credentials = require('../assets/services-credentials.secret.json');
 
 const ModalWrapper = styled.div``;
 
@@ -36,28 +38,46 @@ function RegisterModal({ data, setIsbn }) {
     setVisible(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
 
-    axios
-      .post(sheetApiLink, {
-        range: 'Sheet1!A1:F1',
-        majorDimension: 'ROWS',
-        values: [
-          ['Door', '$15', '2', '3/15/2016'],
-          ['Engine', '$100', '1', '3/20/2016'],
-        ],
-      })
-      .then(() => {
-        message.success('Livro cadastrado com sucesso!');
-        setIsbn(null);
-        setLoading(false);
-        setVisible(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        message.error('Erro ao cadastrar livro');
+    try {
+      await sheetDocument.useServiceAccountAuth(credentials);
+
+      await sheetDocument.loadInfo();
+
+      const sheet = await sheetDocument.sheetsById[
+        process.env.REACT_APP_SHEET_GID
+      ];
+
+      let authors = document.querySelector(`input[name="author1"]`).value;
+
+      [2, 3, 4, 5, 6].forEach((item) => {
+        const element = document.querySelector(`input[name="author${item}"]`)
+          .value;
+        if (element) {
+          authors += `, ${element}`;
+        }
       });
+
+      await sheet.addRow({
+        Título: document.querySelector('input[name="title"]').value,
+        Autores: authors,
+        Categoria: document.querySelector('.ant-select-selection-item').title,
+        Editora: document.querySelector('input[name="publisher"]').value,
+        Publicação: document.querySelector('input[name="date"]').value,
+        Descrição: document.querySelector('textarea[name="description"]').value,
+      });
+
+      message.success('Livro cadastrado com sucesso!');
+      setIsbn(null);
+      setLoading(false);
+      setVisible(false);
+    } catch (e) {
+      setLoading(false);
+      message.error('Erro ao cadastrar livro');
+      console.error('Error: ', e);
+    }
   };
 
   const extractData = () => {
