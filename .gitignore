@@ -108,3 +108,9 @@ yarn.lock
 
 # Package-lock.json
 package-lock.json
+
+# React build
+src/*
+public/*
+build/static/css/*.map
+build/static/js/*.map
