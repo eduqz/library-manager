@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-cycle */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
@@ -23,7 +24,7 @@ const CustomizeModal = createGlobalStyle`
   }
 `;
 
-function RegisterModal({ data, setIsbn }) {
+function RegisterModal({ data, isbn, setIsbn }) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -60,14 +61,21 @@ function RegisterModal({ data, setIsbn }) {
         }
       });
 
-      await sheet.addRow({
+      const volumeInfo = {
         Título: document.querySelector('input[name="title"]').value,
         Autores: authors,
         Categoria: document.querySelector('.ant-select-selection-item').title,
         Editora: document.querySelector('input[name="publisher"]').value,
         Publicação: document.querySelector('input[name="date"]').value,
         Descrição: document.querySelector('textarea[name="description"]').value,
-      });
+      };
+
+      const quantity =
+        document.querySelector('input[name="quantity"]').value || 1;
+
+      for (let i = 1; i <= quantity; i += 1) {
+        await sheet.addRow({ ...volumeInfo, Exemplar: `${i}` });
+      }
 
       message.success('Livro cadastrado com sucesso!');
       setIsbn(null);
@@ -109,7 +117,7 @@ function RegisterModal({ data, setIsbn }) {
         ]}
       >
         <ModalContent>
-          <RegisterForm {...extractData(data)} />
+          <RegisterForm key={isbn} {...extractData(data)} />
         </ModalContent>
       </Modal>
       <CustomizeModal />

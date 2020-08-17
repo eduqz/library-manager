@@ -27,8 +27,12 @@ function DataEntry({ setIsbn, loading }) {
   return (
     <ComponentWrapper>
       <Card
-        title='Cadastro de livro'
-        extra={<a href={sheetLink}>Lista de livros</a>}
+        title='Cadastro de livros'
+        extra={
+          <a href={sheetLink} target='_blank' rel='noreferrer'>
+            Lista de livros
+          </a>
+        }
         headStyle={{ fontWeight: 'bold' }}
         style={{ width: 350 }}
       >
