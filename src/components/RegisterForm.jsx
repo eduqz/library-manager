@@ -104,11 +104,7 @@ function RegisterModal({
         </FormGroup>
         <FormGroup>
           <Label htmlFor='date'>Publicação</Label>
-          <InputNumber
-            name='date'
-            min={1800}
-            defaultValue={getYear(publishedDate)}
-          />
+          <InputNumber name='date' defaultValue={getYear(publishedDate)} />
         </FormGroup>
       </GridGroup>
 
@@ -131,7 +127,7 @@ function RegisterModal({
             'Poesia',
             'Inclusão',
             'Fantasia',
-            'Avemtira/Suspense',
+            'Aventura/Suspense',
             'Comportamento',
             'Biografia',
             'Como fazer',
