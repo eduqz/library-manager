@@ -30,8 +30,6 @@ function RegisterModal({ data, isbn, setIsbn }) {
   const [googleId, setGoogleId] = useContext(GoogleId);
 
   useEffect(() => {
-    console.log(googleId);
-
     if (Object.keys(data).length !== 0) {
       if (googleId === '') {
         return message.error(
@@ -49,15 +47,12 @@ function RegisterModal({ data, isbn, setIsbn }) {
   };
 
   const handleSubmit = async () => {
-    console.log(googleId);
-
     if (googleId === '') {
       return message.error(
         'Você precisa estar logado para cadastrar um livro!',
       );
     }
 
-    console.log(googleId, process.env.REACT_APP_GOOGLE_ID);
     if (googleId !== process.env.REACT_APP_GOOGLE_ID) {
       return message.error(
         'Você não está autorizado a realizar cadastro de livros',
@@ -106,9 +101,9 @@ function RegisterModal({ data, isbn, setIsbn }) {
         document.querySelector('input[name="quantity"]').value || 1;
 
       const rows = await sheet.getRows();
-      const copies = rows.filter((item) => item.ISBN === isbn).length || 1;
+      const copies = rows.filter((item) => item.ISBN === isbn).length;
 
-      for (let i = copies; i <= quantity + copies; i += 1) {
+      for (let i = copies + 1; i <= parseInt(quantity, 10) + copies; i += 1) {
         await sheet.addRow({ ...volumeInfo, Exemplar: `${i}` });
       }
 

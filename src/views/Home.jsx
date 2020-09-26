@@ -42,10 +42,6 @@ function Home() {
     }
   }, [isbn]);
 
-  useEffect(() => {
-    console.log(googleId);
-  }, [googleId]);
-
   return (
     <PageWrapper>
       <GoogleId.Provider value={[googleId, setGoogleId]}>
