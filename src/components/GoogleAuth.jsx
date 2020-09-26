@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { message } from 'antd';
 
-function GoogleAuth() {
+function GoogleAuth(setGoogleId) {
   const [isLogged, setIsLogged] = useState(false);
-  const [googleId, setGoogleId] = useState('');
 
   const login = (res) => {
     console.log(res);
@@ -12,6 +11,8 @@ function GoogleAuth() {
     if (res.googleId) {
       setIsLogged(true);
       setGoogleId(res.googleId);
+
+      message.success('Login realizado com sucesso');
     }
   };
 
@@ -21,11 +22,11 @@ function GoogleAuth() {
   };
 
   const handleLoginErr = (res) => {
-    message.success('Falha ao fazer login');
+    message.error('Falha ao fazer login');
   };
 
   const handleLogoutErr = (res) => {
-    message.success('Falha ao sair');
+    message.error('Falha ao sair');
   };
 
   return (

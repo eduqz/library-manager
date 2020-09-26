@@ -22,12 +22,18 @@ const CustomizeModal = createGlobalStyle`
   }
 `;
 
-function RegisterModal({ data, isbn, setIsbn }) {
+function RegisterModal({ data, isbn, setIsbn, googleId }) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (Object.keys(data).length !== 0) {
+      if (!googleId || googleId === '') {
+        return message.error(
+          'Você precisa estar logado para cadastrar um livro!',
+        );
+      }
+
       setVisible(true);
     }
   }, [data]);
@@ -38,6 +44,18 @@ function RegisterModal({ data, isbn, setIsbn }) {
   };
 
   const handleSubmit = async () => {
+    if (!googleId || googleId === '') {
+      return message.error(
+        'Você precisa estar logado para cadastrar um livro!',
+      );
+    }
+
+    if (googleId !== process.env.REACT_APP_GOOGLE_ID) {
+      return message.error(
+        'Você não está autorizado a realizar cadastro de livros',
+      );
+    }
+
     setLoading(true);
 
     const credentials = {

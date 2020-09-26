@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { DataEntry, RegisterModal } from '../components';
+import { DataEntry, RegisterModal, GoogleAuth } from '../components';
 import { createApiLink } from '../assets/globalRefs';
 
 const PageWrapper = styled.div`
@@ -18,6 +18,7 @@ function Home() {
   const [isbn, setIsbn] = useState('');
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [googleId, setGoogleId] = useState('');
 
   useEffect(() => {
     if (isbn) {
@@ -43,7 +44,13 @@ function Home() {
   return (
     <PageWrapper>
       <DataEntry setIsbn={setIsbn} loading={loading} />
-      <RegisterModal data={data} isbn={isbn} setIsbn={setIsbn} />
+      <RegisterModal
+        data={data}
+        isbn={isbn}
+        setIsbn={setIsbn}
+        googleId={googleId}
+      />
+      <GoogleAuth setGoogleId={setGoogleId} />
     </PageWrapper>
   );
 }
