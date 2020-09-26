@@ -1,11 +1,12 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-cycle */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal, message, Button } from 'antd';
 import styled, { createGlobalStyle } from 'styled-components';
 import { RegisterForm } from '.';
 import { sheetDocument } from '../assets/globalRefs';
+import GoogleId from '../state/GoogleId.context';
 
 const ModalWrapper = styled.div``;
 
@@ -22,13 +23,17 @@ const CustomizeModal = createGlobalStyle`
   }
 `;
 
-function RegisterModal({ data, isbn, setIsbn, googleId }) {
+function RegisterModal({ data, isbn, setIsbn }) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [googleId, setGoogleId] = useContext(GoogleId);
+
   useEffect(() => {
+    console.log(googleId);
+
     if (Object.keys(data).length !== 0) {
-      if (!googleId || googleId === '') {
+      if (googleId === '') {
         return message.error(
           'Você precisa estar logado para cadastrar um livro!',
         );
@@ -44,12 +49,15 @@ function RegisterModal({ data, isbn, setIsbn, googleId }) {
   };
 
   const handleSubmit = async () => {
-    if (!googleId || googleId === '') {
+    console.log(googleId);
+
+    if (googleId === '') {
       return message.error(
         'Você precisa estar logado para cadastrar um livro!',
       );
     }
 
+    console.log(googleId, process.env.REACT_APP_GOOGLE_ID);
     if (googleId !== process.env.REACT_APP_GOOGLE_ID) {
       return message.error(
         'Você não está autorizado a realizar cadastro de livros',
@@ -82,9 +90,11 @@ function RegisterModal({ data, isbn, setIsbn, googleId }) {
         }
       });
 
+      const isbn = document.querySelector('input[name="isbn"]').value;
+
       const volumeInfo = {
         Título: document.querySelector('input[name="title"]').value,
-        ISBN: document.querySelector('input[name="isbn"]').value,
+        ISBN: isbn,
         Autores: authors,
         Categoria: document.querySelector('.ant-select-selection-item').title,
         Editora: document.querySelector('input[name="publisher"]').value,
@@ -95,7 +105,10 @@ function RegisterModal({ data, isbn, setIsbn, googleId }) {
       const quantity =
         document.querySelector('input[name="quantity"]').value || 1;
 
-      for (let i = 1; i <= quantity; i += 1) {
+      const rows = await sheet.getRows();
+      const copies = rows.filter((item) => item.ISBN === isbn).length || 1;
+
+      for (let i = copies; i <= quantity + copies; i += 1) {
         await sheet.addRow({ ...volumeInfo, Exemplar: `${i}` });
       }
 

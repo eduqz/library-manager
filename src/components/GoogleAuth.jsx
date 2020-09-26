@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useGoogleLogin, useGoogleLogout } from 'react-google-login';
 import { GoogleOutlined } from '@ant-design/icons';
 import { message, Button } from 'antd';
 import styled from 'styled-components';
+import GoogleId from '../state/GoogleId.context';
 
-function GoogleAuth(setGoogleId) {
+const ButtonWrapper = styled.div`
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+`;
+
+function GoogleAuth() {
   const [isLogged, setIsLogged] = useState(false);
+
+  const [googleId, setGoogleId] = useContext(GoogleId);
 
   const login = (res) => {
     if (res.googleId) {
@@ -45,24 +54,9 @@ function GoogleAuth(setGoogleId) {
     responseType: 'code,token',
   });
 
-  const ButtonWrapper = styled.div`
-    position: fixed;
-    top: 2rem;
-    right: 2rem;
-  `;
-
   return (
     <ButtonWrapper>
       {isLogged ? (
-        <Button
-          type='primary'
-          onClick={signIn}
-          icon={<GoogleOutlined />}
-          shape='round'
-        >
-          Login
-        </Button>
-      ) : (
         <Button
           type='primary'
           onClick={signOut}
@@ -70,6 +64,15 @@ function GoogleAuth(setGoogleId) {
           shape='round'
         >
           Sair
+        </Button>
+      ) : (
+        <Button
+          type='primary'
+          onClick={signIn}
+          icon={<GoogleOutlined />}
+          shape='round'
+        >
+          Login
         </Button>
       )}
     </ButtonWrapper>
