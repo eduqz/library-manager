@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { message } from 'antd';
+import { useGoogleLogin, useGoogleLogout } from 'react-google-login';
+import { GoogleOutlined } from '@ant-design/icons';
+import { message, Button } from 'antd';
+import styled from 'styled-components';
 
 function GoogleAuth(setGoogleId) {
   const [isLogged, setIsLogged] = useState(false);
 
   const login = (res) => {
-    console.log(res);
-
     if (res.googleId) {
       setIsLogged(true);
       setGoogleId(res.googleId);
@@ -29,26 +29,50 @@ function GoogleAuth(setGoogleId) {
     message.error('Falha ao sair');
   };
 
+  const { signIn } = useGoogleLogin({
+    clientId: process.env.REACT_APP_CLIENT_ID,
+    onSuccess: login,
+    onFailure: handleLoginErr,
+    cookiePolicy: 'single_host_origin',
+    responseType: 'code,token',
+  });
+
+  const { signOut } = useGoogleLogout({
+    clientId: process.env.REACT_APP_CLIENT_ID,
+    onSuccess: logout,
+    onFailure: handleLogoutErr,
+    cookiePolicy: 'single_host_origin',
+    responseType: 'code,token',
+  });
+
+  const ButtonWrapper = styled.div`
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+  `;
+
   return (
-    <div>
+    <ButtonWrapper>
       {isLogged ? (
-        <GoogleLogout
-          clientId={process.env.REACT_APP_CLIENT_ID}
-          buttonText='Sair'
-          onLogoutSuccess={logout}
-          onFailure={handleLogoutErr}
-        ></GoogleLogout>
+        <Button
+          type='primary'
+          onClick={signIn}
+          icon={<GoogleOutlined />}
+          shape='round'
+        >
+          Login
+        </Button>
       ) : (
-        <GoogleLogin
-          clientId={process.env.REACT_APP_CLIENT_ID}
-          buttonText='Login'
-          onSuccess={login}
-          onFailure={handleLoginErr}
-          cookiePolicy={'single_host_origin'}
-          responseType='code,token'
-        />
+        <Button
+          type='primary'
+          onClick={signOut}
+          icon={<GoogleOutlined />}
+          shape='round'
+        >
+          Sair
+        </Button>
       )}
-    </div>
+    </ButtonWrapper>
   );
 }
 
